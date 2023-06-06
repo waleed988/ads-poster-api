@@ -14,8 +14,6 @@ class Ad < ApplicationRecord
   scope :filter_by_title, -> (title) { where title: title }
   scope :filter_by_location, -> (location) { where location: location }
   scope :filter_by_featured, -> (featured) { where featured: featured }
-  # scope :filter_by_price, -> (price) { where price: price }
-
   scope :filter_by_price, -> (min, max) {where(price: min..max) }
   scope :filter_by_transmission_type, -> (transmission_type) { where transmission_type: transmission_type }
   scope :filter_by_brand_name, -> (brand_name) { where brand_name: brand_name }
