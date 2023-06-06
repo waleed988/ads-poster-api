@@ -2,31 +2,21 @@ class AdsController < ApplicationController
   before_action :authorize_request
   
   def index 
-  #  @ads = Ad.all
    @ads = Ad.where(nil) 
    @ads = @ads.filter_by_title(params[:title]) if params[:title].present?
    @ads = @ads.filter_by_location(params[:location]) if params[:location].present?
    @ads = @ads.filter_by_featured(params[:featured]) if params[:featured].present?
    @ads = @ads.filter_by_price(params[:min],params[:max]) if params[:min].present?
-  #  @ads = @ads.filter_by_price(params[:price]) if params[:price].present?
    @ads = @ads.filter_by_brand_name(params[:brand_name]) if params[:brand_name].present?
    @ads = @ads.filter_by_transmission_type(params[:transmission_type]) if params[:transmission_type].present?
 
-   if @ads.present?
-     render json:@ads
-   else
-     render json:"No Ads ! Please Create Ad"
-   end
+   render json: @ads.presence || "No Ads ! Please Create Ad"
  end
 
  def create   
    @ad = Ad.create(ad_params)
    @ad.save!
-   if @ad.present? 
-     render json:@ad
-   else
-     render json:"Error Occured"
-   end
+   render json: @ad.presence || "Error Occured"
  end
 
  def show 
